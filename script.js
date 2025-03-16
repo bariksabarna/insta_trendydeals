@@ -1,5 +1,5 @@
 const sheetID = "1ugyGvPqTMreLamaYQkqVh6WFcNx3ir6jK4wyqFs1ehs"; // Your Google Sheet ID
-const sheetNames = ["Sheet1", "Sheet2", "Sheet3"]; // Add new sheet names here anytime!
+const sheetNames = ["Sheet1", "Sheet2", "Sheet3"]; // Add sheet names here
 
 async function fetchLinks() {
     let container = document.getElementById("links-container");
@@ -15,11 +15,14 @@ async function fetchLinks() {
             const response = await fetch(url);
             const data = await response.text();
             let rows = data.split("\n").map(row => row.split(","));
-            rows.shift(); // Remove headers if they exist
-
+            
+            // Ensure CSV is formatted correctly and has data
+            rows = rows.filter(row => row.length >= 2 && row[1]); // Ensure at least 2 columns exist
+            
             rows.forEach(row => {
-                if (row[1]) {
-                    allLinks.push({ number: index, url: row[1].replace(/"/g, '') });
+                let link = row[1].replace(/"/g, '').trim(); // Remove quotes and spaces
+                if (link.startsWith("http")) { // Validate it's a proper link
+                    allLinks.push({ number: index, url: link });
                     index++;
                 }
             });
