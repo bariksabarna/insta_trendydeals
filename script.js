@@ -15,7 +15,7 @@ async function fetchLinks() {
             const response = await fetch(url);
             const data = await response.text();
             let rows = data.split("\n").map(row => row.split(","));
-            
+
             // Ensure CSV is formatted correctly and has data
             rows = rows.filter(row => row.length >= 2 && row[1]); // Ensure at least 2 columns exist
             
@@ -46,4 +46,5 @@ async function fetchLinks() {
     }
 }
 
+// Run function when page loads
 fetchLinks();
