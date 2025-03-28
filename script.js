@@ -17,12 +17,14 @@ async function fetchLinks() {
             let rows = data.split("\n").map(row => row.split(","));
 
             // Ensure CSV is formatted correctly and has data
-            rows = rows.filter(row => row.length >= 2 && row[1]); // Ensure at least 2 columns exist
-            
+            rows = rows.filter(row => row.length >= 3 && row[1] && row[2]); // Ensure at least 3 columns exist
+
             rows.forEach(row => {
                 let link = row[1].replace(/"/g, '').trim(); // Remove quotes and spaces
-                if (link.startsWith("http")) { // Validate it's a proper link
-                    allLinks.push({ number: index, url: link });
+                let imageUrl = row[2].replace(/"/g, '').trim(); // Remove quotes and spaces
+                
+                if (link.startsWith("http") && imageUrl.startsWith("http")) { // Validate both link and image
+                    allLinks.push({ number: index, url: link, image: imageUrl });
                     index++;
                 }
             });
@@ -32,7 +34,7 @@ async function fetchLinks() {
         }
     }
 
-    // Display Links
+    // Display Links and Images
     container.innerHTML = "";
     if (allLinks.length === 0) {
         container.innerHTML = "No links found.";
@@ -40,7 +42,11 @@ async function fetchLinks() {
         allLinks.forEach(link => {
             let div = document.createElement("div");
             div.className = "link-item";
-            div.innerHTML = `<b>${link.number}.</b> <a href="${link.url}" target="_blank">${link.url}</a>`;
+            div.innerHTML = `
+                <b>${link.number}.</b> 
+                <a href="${link.url}" target="_blank">${link.url}</a> <br>
+                <img src="${link.image}" alt="Image ${link.number}" class="link-image">
+            `;
             container.appendChild(div);
         });
     }
