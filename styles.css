@@ -66,4 +66,12 @@ body {
     animation: backgroundMove 20s ease-in-out infinite;
 }
 
+/* Image Styling */
+.link-image {
+    width: 150px; /* Adjust size as needed */
+    height: auto;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+}
 
