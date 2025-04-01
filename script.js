@@ -17,7 +17,7 @@ async function fetchLinks() {
             let rows = data.split("\n").map(row => row.split(","));
 
             // Ensure CSV is formatted correctly and has data
-            rows = rows.filter(row => row.length >= 3 && row[1] && row[2]); // Ensure at least 3 columns exist
+            rows = rows.filter(row => row.length >= 2 && row[1]); // Ensure at least 3 columns exist
 
             rows.forEach(row => {
                 let link = row[1].replace(/"/g, '').trim(); // Remove quotes and spaces
